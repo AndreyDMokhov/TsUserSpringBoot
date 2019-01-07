@@ -8,6 +8,7 @@ import com.example.test.server.testserver.entity.TsUser;
 import com.example.test.server.testserver.entity.TsUserHealthParam;
 import com.example.test.server.testserver.entity.dto.HealthParamRequest;
 import com.example.test.server.testserver.entity.dto.TsUserRegisterRequest;
+import com.example.test.server.testserver.errors.BaseException;
 import com.example.test.server.testserver.repository.HealthParamRepository;
 import com.example.test.server.testserver.repository.TsUserRepository;
 
@@ -23,7 +24,7 @@ public class TsUserService {
 	public void register(TsUserRegisterRequest registerRequest) {
 		TsUser user = userRepository.findByEmail(registerRequest.getEmail());
 		if(user != null) {
-			throw new RuntimeException("The email is exist yet");
+			throw new BaseException("The email is exist yet");
 		}
 		user = TsUser.builder()
 				.email(registerRequest.getEmail())
@@ -36,7 +37,7 @@ public class TsUserService {
 	public void saveHealthParam (Long userId, HealthParamRequest healthParamRequest ) {
 		TsUser user = userRepository.findTsUserById(userId);
 		if (user == null) {
-			throw new RuntimeException();
+			throw new BaseException("");
 		}
 		
 		TsUserHealthParam userHealthParam = TsUserHealthParam.builder()

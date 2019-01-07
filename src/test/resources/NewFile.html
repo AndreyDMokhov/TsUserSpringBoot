@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CNOGA</title>
+</head>
+<body>
+<div>
+    <form name="formTest" >
+        <label>Email</label>
+        <input name="email" type="email" required>
+        <label>Name</label>
+        <input name = "name" type="text" required>
+        <label>LastName</label>
+        <input name = "lastName" type="text" required>
+    </form>
+    <button onclick="onSubmit()">Submit</button>
+</div>
+
+<script>
+    function onSubmit() {
+
+
+    var formData = new FormData(document.forms[0]);
+    console.log(formData);
+
+    var formJson = {};
+    for(var field of formData.entries()) {
+        /*    if(key.name === undefined || key.name === "") {
+                continue;
+            }*/
+        formJson[field[0]] = field[1];
+    }
+
+    var formJson = JSON.stringify(formJson);
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open("POST", "http://localhost:8080/user/registration");
+    xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+    xhr.send(formJson);
+    }
+</script>
+</body>
+</html>
